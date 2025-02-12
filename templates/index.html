@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>My Site</title>
+{% endblock %}
+
+{% block body %}
+
+{% if not signed_in %}
+<div class="form">
+	<form action="/" method="POST">
+		<input type="text" name="email" id="email" placeholder="Email">
+		<br>
+		<input type="password" name="password" id="password" placeholder="Password">
+		<br>
+		<input type="submit" value="Sign In">
+	</form>
+</div>
+<br>
+<a href="/signup">Sign Up</a>
+{% endif %}
+
+{% if signed_in %}
+<a href="/home">Home</a>
+<br>
+<a href="/logout">Logout</a>
+
+{% endif %}
+
+{% endblock %}

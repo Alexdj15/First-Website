@@ -1,0 +1,60 @@
+    body {
+        background-color: black;
+        color: white;
+        text-align: center;
+    }
+
+    .content {
+        text-align: center;
+        margin-top: 50px; /* Adds some space at the top */
+    }
+
+	h1 {
+		text-align: center;  /* Centers the text inside the header */
+    	margin-bottom: 20px; /* Adds some space below the header */
+	}
+
+    table {
+        margin: 0 auto;  /* This centers the table */
+        width: 50%;  /* Adjust width to make it look better */
+        border-collapse: collapse;  /* Ensures table borders collapse into one */
+    }
+
+    th, td {
+        padding: 5px;
+        text-align: left;  /* Align text to the left inside table cells */
+        border: 1px solid #ddd;  /* Light gray border for the table */
+    }
+
+    td {
+        text-align: center;  /* Center the text inside the actions column */
+    }
+
+    a {
+        color: rgb(0, 170, 255);
+        text-decoration: none;
+        padding: 5px;
+    }
+	a:hover {
+		color:rgb(226, 43, 223);
+		text-decoration: underline;
+	}
+
+	form {
+		margin-top: 25px;
+		text-align: center;
+	}
+   
+    .error-message {
+        color: red;
+        font-size: 18px;
+        font-weight: bold;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #ffe6e6;
+        padding: 8px 12px;
+        border-radius: 6px;
+        border: 1px solid red;
+        display: inline-block;
+    }
+

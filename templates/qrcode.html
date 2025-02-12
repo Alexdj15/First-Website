@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>QR Code Generator</title>
+{% endblock %}
+
+{% block body %}
+<a href="/" style="display: block; text-align: left !important;">Home</a>
+
+<h1>Enter link below</h1>
+	<form action="/QRcode" method="POST">
+		<input type="text" name="qrstring" id="qrstring" maxlength="200" placeholder="Enter website">
+		<input type="submit" id="qrbutton" value="{% if user_qrcode %}Generate New QR Code{% else %}Generate QR Code{% endif %}">
+	</form>
+	<br>
+	{% if qrcodenotvalid %}
+	<h2 class="error-message">QR Code is not valid!</h2>
+	{% endif %}
+	{% if user_qrcode %}
+	<h2>Your QR Code:</h2>
+	<h3>{{ qrcodestring }}</h3>
+	<img src="{{ user_qrcode }}">
+	{% endif %}
+{% endblock %}
