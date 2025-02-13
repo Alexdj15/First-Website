@@ -40,9 +40,38 @@
 		text-decoration: underline;
 	}
 
-	form {
-		margin-top: 25px;
-		text-align: center;
-	}
+    form {
+	    margin-top: 25px;
+	    text-align: center;
+    }
    
+    .nav-links {
+        background-color: rgb(240, 240, 151);
+        padding: 10px;
+        text-align: left;
+    }
+
+    .dash {
+        color: black;
+    }
+
+    .form input {
+        margin-bottom: 10px;
+        padding: 2px;
+    }
+
+    .form input:focus {
+        outline: none;
+        border: 2px solid #5b9bd5;
+        border-radius: 2px;
+    }
+    
+    .form input:hover {
+        border-color: #5b9bd5;       /* Change the border color to blue when hovered */
+        background-color: #f1faff;   /* Lighten the background color to indicate hover */
+        cursor: pointer;             /* Change the cursor to a pointer to indicate interactivity */
+        box-shadow: 0 0 8px rgba(91, 155, 213, 0.3); /* Soft shadow on hover */
+        border-radius: 2px;
+    }
+    
 

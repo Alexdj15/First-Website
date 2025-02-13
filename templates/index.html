@@ -6,37 +6,51 @@
 
 {% block body %}
 
+<div class="nav-links">
+    <a href="/home">Home</a> <span class="dash">-</span>
+    {% if not signed_in %}
+    <a href="/signup">Sign up</a> <span class="dash">-</span> 
+    {% endif %}
+    <a href="/QRcode">QR code generator</a> <span class="dash">-</span> 
+    <a href="/taskmanager">Task Manager</a>
+    {% if signed_in %}
+    <span class="dash">-</span> <a href="/logout">Logout</a> <span class="dash">-</span> 
+    <a href="/delete_account" id="delete-account">Delete account</a>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("delete-account").addEventListener("click", function(event) {
+                const confirmation = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+                if (!confirmation) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+    {% endif %}
+</div>
+
+
+
 {% if not signed_in %}
 <div class="form">
     <form action="/" method="POST">
-        <input type="text" name="email" id="email" placeholder="Email">
+        <input type="text" name="email" id="email" placeholder="Email" value="{{ email if email else '' }}">
         <br>
         <input type="password" name="password" id="password" placeholder="Password">
         <br>
         <input type="submit" value="Sign In">
     </form>
 </div>
-<br>
-<a href="/signup">Sign Up</a>
+
+{% if error_message %}
+
+<p style="color: red;">{{error_message}}</p>
+
 {% endif %}
 
-{% if signed_in %}
-<a href="/taskmanager">Task Manager</a>
-<br>
-<a href="/logout">Logout</a>
-<br>
-<a href="/delete_account" id="delete-account">Delete account</a>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        document.getElementById("delete-account").addEventListener("click", function(event) {
-            const confirmation = confirm("Are you sure you want to delete your account? This action cannot be undone.");
-            if (!confirmation) {
-                event.preventDefault();
-            }
-        });
-    });
-</script>
 {% endif %}
+
+
 
 {% endblock %}

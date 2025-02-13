@@ -28,11 +28,16 @@ class Signin(db.Model):
     email = db.Column(db.String(100), nullable=False, unique=True)  
     password = db.Column(db.String(200), nullable=False)  
 
+    tasks = db.relationship('Todo', backref='user', lazy=True, cascade="all, delete-orphan")
+
 # Task Manager Model
 class Todo(db.Model):  
     id = db.Column(db.Integer, primary_key=True)  
     content = db.Column(db.String(200), nullable=False)  
     date_created = db.Column(db.DateTime, default=datetime.now(timezone.utc))  
+    user_id = db.Column(db.Integer, db.ForeignKey('signin.id'), nullable=False)
+
+    user = db.relationship('Signin', backref='tasks')
 
     def __repr__(self):
         return '<Task %r>' % self.id
@@ -49,11 +54,11 @@ def index():
             if password == user.password:  
                 session["signed_in"] = True
                 session["user_id"] = user.id  # Store the user ID in session
-                return redirect('/home')  
+                return redirect('/')  
             else:
-                return 'Invalid Password'
+                return render_template("index.html", error_message="Wrong password", email=email)
         else:
-            return 'Invalid Email'
+            return redirect("/signup")
 
     return render_template("index.html", signed_in=session.get("signed_in", False))
 
@@ -67,9 +72,14 @@ def home():
 # Task Manager Route
 @app.route("/taskmanager", methods=['POST', 'GET'])
 def taskmanager():
+    if not session.get("signed_in"):
+        return redirect("/") 
+     
     if request.method == 'POST':  
         task_content = request.form["content"]
-        new_task = Todo(content=task_content)
+        user_id = session["user_id"]
+
+        new_task = Todo(content=task_content, user_id=user_id)
 
         try:
             db.session.add(new_task)
@@ -78,13 +88,20 @@ def taskmanager():
         except:
             return 'There was an issue adding your task'
     else:
-        tasks = Todo.query.order_by(Todo.date_created).all()
+        user_id = session["user_id"]
+        tasks = Todo.query.filter_by(user_id=user_id).order_by(Todo.date_created).all()
         return render_template('taskmanager.html', tasks=tasks)
 
 # Delete Task Route
 @app.route('/delete/<int:id>')
 def delete(id):
+    if not session.get("signed_in"):
+        return redirect("/")  
+
     task_to_delete = Todo.query.get_or_404(id)
+    
+    if task_to_delete.user_id != session["user_id"]:
+        return "You do not have permision to delete this task."
 
     try:
         db.session.delete(task_to_delete)
@@ -96,7 +113,13 @@ def delete(id):
 # Update Task Route
 @app.route('/update/<int:id>', methods=['GET', 'POST'])
 def update(id):
+    if not session.get("signed_in"):
+        return redirect("/")  
+
     task = Todo.query.get_or_404(id)
+
+    if task.user_id != session["user_id"]:
+        return "You do not have permision to update this task."
 
     if request.method == 'POST':
         task.content = request.form["content"]
@@ -113,6 +136,7 @@ def update(id):
 def qrcode():
     if not session.get("signed_in"):
         return redirect("/")  
+    
     if request.method == 'POST':
         qrcodestring = request.form['qrstring'].strip()
         

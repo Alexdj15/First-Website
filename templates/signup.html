@@ -6,6 +6,8 @@
 
 {% block body %}
 
+<a href="/home">Home</a>
+
 <div class="form">
     <form action="/signup" method="POST">
         <input type="text" name="email" id="email" placeholder="Email" value="{{ request.form['email'] if request.form.get('email') else '' }}">
