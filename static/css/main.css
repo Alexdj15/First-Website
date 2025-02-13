@@ -45,16 +45,4 @@
 		text-align: center;
 	}
    
-    .error-message {
-        color: red;
-        font-size: 18px;
-        font-weight: bold;
-        font-family: Arial, sans-serif;
-        text-align: center;
-        background-color: #ffe6e6;
-        padding: 8px 12px;
-        border-radius: 6px;
-        border: 1px solid red;
-        display: inline-block;
-    }
 

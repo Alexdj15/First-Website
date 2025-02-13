@@ -138,6 +138,12 @@ def signup():
         email = request.form['email']
         password = request.form['password']
 
+        # Check if the email already exists in the database
+        existing_user = Signin.query.filter_by(email=email).first()
+        if existing_user:
+            return render_template('signup.html', error_message="Email address already in use.")
+
+        # If the email doesn't exist, create a new user
         new_user = Signin(email=email, password=password)
         db.session.add(new_user)
         db.session.commit()
@@ -145,6 +151,7 @@ def signup():
         return redirect('/')
 
     return render_template('signup.html')
+
 
 # Logout Route
 @app.route("/logout")
@@ -172,6 +179,4 @@ def delete_account():
         return 'There was an issue deleting your account'
 
 if __name__ == "__main__":
-    app.run(debug=True)
-
-
+    app.run(debug=True)    

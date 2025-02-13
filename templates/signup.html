@@ -8,12 +8,16 @@
 
 <div class="form">
     <form action="/signup" method="POST">
-        <input type="text" name="email" id="email" placeholder="Email">
+        <input type="text" name="email" id="email" placeholder="Email" value="{{ request.form['email'] if request.form.get('email') else '' }}">
         <br>
         <input type="password" name="password" id="password" placeholder="Password">
         <br>
         <input type="submit" value="Sign Up">
     </form>
+
+    {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
 </div>
 
 <script>
