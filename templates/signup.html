@@ -1,32 +1,40 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>My Site</title>
+<title>Sign Up</title>
 {% endblock %}
 
 {% block body %}
 
 <div class="form">
-	<form action="/signup" method="POST">
-		<input type="text" name="email" id="email" placeholder="Email">
-		<br>
-		<input type="password" name="password" id="password" placeholder="Password">
-		<br>
-		<input type="submit" value="Sign Up">
-	</form>
+    <form action="/signup" method="POST">
+        <input type="text" name="email" id="email" placeholder="Email">
+        <br>
+        <input type="password" name="password" id="password" placeholder="Password">
+        <br>
+        <input type="submit" value="Sign Up">
+    </form>
 </div>
+
 <script>
     // Validate form before submission
     document.addEventListener("DOMContentLoaded", function() {
         document.querySelector("form").addEventListener("submit", function(event) {
-            const email = document.getElementById("email").value.trim();  // Get the value of the email and remove extra spaces
-			const password = document.getElementById("password").value.trim(); // Get value of the password and remove extra spaces
-            if (!email) {  // If content is empty
-                alert("Please enter a email before submitting.");  // Custom alert message
-                event.preventDefault();  // Prevent form submission
-			} else if (!password) {
-				alert("Please enter a password before submitting.");
-				event.preventDefault();
+            const email = document.getElementById("email").value.trim();  
+            const password = document.getElementById("password").value.trim(); 
+
+            // Email validation regex pattern
+            const emailPattern = /[-A-Za-z0-9!#$%&'*+/=?^_`{|}~]+(?:\.[-A-Za-z0-9!#$%&'*+/=?^_`{|}~]+)*@(?:[A-Za-z0-9](?:[-A-Za-z0-9]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[-A-Za-z0-9]*[A-Za-z0-9])?/;
+
+            if (!email) {  
+                alert("Please enter an email before submitting.");
+                event.preventDefault();  
+            } else if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address (e.g., example@mail.com).");
+                event.preventDefault();
+            } else if (!password) {
+                alert("Please enter a password before submitting.");
+                event.preventDefault();
             }
         });
     });
