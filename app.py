@@ -28,7 +28,7 @@ class Signin(db.Model):
     email = db.Column(db.String(100), nullable=False, unique=True)  
     password = db.Column(db.String(200), nullable=False)  
 
-    tasks = db.relationship('Todo', backref='user', lazy=True, cascade="all, delete-orphan")
+    tasks = db.relationship('Todo', backref='signin', lazy=True, cascade="all, delete-orphan")
 
 # Task Manager Model
 class Todo(db.Model):  
@@ -36,8 +36,6 @@ class Todo(db.Model):
     content = db.Column(db.String(200), nullable=False)  
     date_created = db.Column(db.DateTime, default=datetime.now(timezone.utc))  
     user_id = db.Column(db.Integer, db.ForeignKey('signin.id'), nullable=False)
-
-    user = db.relationship('Signin', backref='tasks')
 
     def __repr__(self):
         return '<Task %r>' % self.id

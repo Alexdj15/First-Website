@@ -1,11 +1,28 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<title>Task Thingy</title>
+<title>Task Manager</title>
 {% endblock %}
 
 {% block body %}
-<a href="/" style="display: block; text-align: left !important;">Home</a>
+
+<div class="nav-links">
+    <a href="/home">Home</a> <span class="dash">-</span>
+    <a href="/QRcode">QR code generator</a> <span class="dash">-</span> 
+    <a href="/logout">Logout</a> <span class="dash">-</span> 
+    <a href="/delete_account" id="delete-account">Delete account</a>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("delete-account").addEventListener("click", function(event) {
+                const confirmation = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+                if (!confirmation) {
+                    event.preventDefault();
+                }
+            });
+        });
+    </script>
+</div>
 
 <div class="content">
     <h1>Task Thingy</h1>
