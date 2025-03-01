@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Edit Account</title>
+{% endblock %}
+
+{% block body %}
+
+<div class="nav-links">
+    <a href="/home">Home</a>
+</div>
+
+<div class="form">
+    <form action="/edit_account" method="POST">
+        <input type="text" name="email" id="email" placeholder="Email" value="{{ request.form['email'] if request.form.get('email') else '' }}">
+        <br>
+        <input type="password" name="password" id="password" placeholder="Password">
+        <br>
+        <input type="submit" value="Edit Account">
+    </form>
+
+    {% if error_message %}
+        <p style="color: red;">{{ error_message }}</p>
+    {% endif %}
+</div>
+
+<script>
+    // Validate form before submission
+    document.addEventListener("DOMContentLoaded", function() {
+        document.querySelector("form").addEventListener("submit", function(event) {
+            const email = document.getElementById("email").value.trim();  
+            const password = document.getElementById("password").value.trim(); 
+
+            // Email validation regex pattern
+            const emailPattern = /[-A-Za-z0-9!#$%&'*+/=?^_`{|}~]+(?:\.[-A-Za-z0-9!#$%&'*+/=?^_`{|}~]+)*@(?:[A-Za-z0-9](?:[-A-Za-z0-9]*[A-Za-z0-9])?\.)+[A-Za-z0-9](?:[-A-Za-z0-9]*[A-Za-z0-9])?/;
+
+            if (!email) {  
+                alert("Please enter an email before submitting.");
+                event.preventDefault();  
+            } else if (!emailPattern.test(email)) {
+                alert("Please enter a valid email address (e.g., example@mail.com).");
+                event.preventDefault();
+            } else if (!password) {
+                alert("Please enter a password before submitting.");
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+
+{% endblock %}

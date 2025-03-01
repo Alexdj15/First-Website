@@ -6,31 +6,53 @@
 
 {% block body %}
 
-<div class="nav-links">
-    <a href="/home">Home</a> <span class="dash">-</span>
-    {% if not signed_in %}
-    <a href="/signup">Sign up</a> <span class="dash">-</span> 
-    {% endif %}
-    <a href="/QRcode">QR code generator</a> <span class="dash">-</span> 
-    <a href="/taskmanager">Task Manager</a>
-    {% if signed_in %}
-    <span class="dash">-</span> <a href="/logout">Logout</a> <span class="dash">-</span> 
-    <a href="/delete_account" id="delete-account">Delete account</a>
+<div class="nav-container">
+    <div class="nav-links">
+        <a href="/">Home</a> <span class="dash">-</span>
+        <a href="/QRcode">QR code generator</a> <span class="dash">-</span>
+        <a href="/taskmanager">Task Manager</a>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            document.getElementById("delete-account").addEventListener("click", function(event) {
-                const confirmation = confirm("Are you sure you want to delete your account? This action cannot be undone.");
-                if (!confirmation) {
-                    event.preventDefault();
-                }
-            });
-        });
-    </script>
-    {% endif %}
+        {% if signed_in %}
+        <span class="dash">-</span>
+        <div class="profile-container">
+            <a href="#" id="profile-link">Profile ▼</a>
+            <div class="dropdown" id="profile-dropdown">
+                <a href="/logout">Logout</a>
+                <a href="/edit_account">Edit account</a>
+                <a href="/delete_account" id="delete-account">Delete account</a>
+            </div>
+        </div>
+        {% else %}
+        <span class="dash">-</span>
+        <a href="/signup">Sign up</a>
+        {% endif %}
+    </div>
 </div>
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const profileLink = document.getElementById("profile-link");
+        const dropdown = document.getElementById("profile-dropdown");
 
+        profileLink.addEventListener("click", function(event) {
+            event.preventDefault();
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        });
+
+        document.addEventListener("click", function(event) {
+            if (!profileLink.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.style.display = "none";
+            }
+        });
+
+        document.getElementById("delete-account").addEventListener("click", function(event) {
+            const confirmation = confirm("Are you sure you want to delete your account? This action cannot be undone.");
+            if (!confirmation) {
+                event.preventDefault();
+            }
+        });
+    });
+</script>
 
 {% if not signed_in %}
 <div class="form">
@@ -44,13 +66,9 @@
 </div>
 
 {% if error_message %}
-
-<p style="color: red;">{{error_message}}</p>
-
+<p style="color: red;">{{ error_message }}</p>
 {% endif %}
 
 {% endif %}
-
-
 
 {% endblock %}

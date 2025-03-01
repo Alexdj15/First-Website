@@ -74,4 +74,38 @@
         border-radius: 2px;
     }
     
+    .dropdown {
+        display: none;
+        position: absolute;
+        background-color: rgb(240, 240, 151);
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.2);
+        width: 150px;  /* Adjust width to fit content */
+        text-align: left;
+    }
+    
+    .dropdown a {
+        display: block;
+        padding: 5px;
+        color: rgb(0, 170, 255); /* Set to normal link color */
+        text-decoration: none;
+    }
+    
+    .dropdown a:hover {
+        color: rgb(226, 43, 223); /* Set to normal hover color */
+        text-decoration: underline;
+        background-color: transparent; /* Ensure no background color change */
+    }
+    
+    
+    .profile-container {
+        display: inline-block;
+        position: relative; /* Allows absolute positioning inside */
+    }
+    
+    #profile-link {
+        cursor: pointer;
+    }
+    
 

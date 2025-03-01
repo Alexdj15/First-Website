@@ -174,7 +174,6 @@ def signup():
 
     return render_template('signup.html')
 
-
 # Logout Route
 @app.route("/logout")
 def logout():
@@ -199,6 +198,35 @@ def delete_account():
         return redirect('/')
     except:
         return 'There was an issue deleting your account'
+
+# Edit Account Route
+@app.route("/edit_account", methods=["POST", "GET"])
+def edit_account():
+    if "user_id" not in session:
+        return redirect("/")
+    
+    user = Signin.query.get(session["user_id"])  # Get the logged-in user from the database
+    
+    if request.method == "POST":
+        email = request.form["email"]
+        password = request.form["password"]
+
+        # Check if the new email is already taken by another user
+        existing_user = Signin.query.filter_by(email=email).first()
+        if existing_user and existing_user.id != user.id:  # Ensure it's not the same user
+            return render_template("edit_account.html", error_message="Email address already in use.", user=user)
+
+        # Update user details
+        user.email = email
+        user.password = password
+        
+        db.session.commit()  # Save changes
+
+        return redirect("/")  # Redirect to a profile or confirmation page
+
+    return render_template("edit_account.html", user=user)
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)    
